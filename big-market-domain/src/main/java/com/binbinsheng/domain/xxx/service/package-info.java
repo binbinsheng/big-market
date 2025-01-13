@@ -1,0 +1,1 @@
+package com.binbinsheng.domain.xxx.service;
