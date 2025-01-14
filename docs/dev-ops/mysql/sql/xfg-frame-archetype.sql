@@ -17,92 +17,122 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE database if NOT EXISTS `xfg_frame_archetype` default character set utf8mb4 collate utf8mb4_0900_ai_ci;
-use `xfg_frame_archetype`;
+CREATE database if NOT EXISTS `big_market` default character set utf8mb4 collate utf8mb4_0900_ai_ci;
+use `big_market`;
 
 -- ----------------------------
--- Table structure for employee
+-- 策略总表
 -- ----------------------------
-DROP TABLE IF EXISTS `employee`;
-CREATE TABLE `employee` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `employee_number` varchar(16) NOT NULL DEFAULT '' COMMENT '雇员ID',
-  `employee_name` varchar(32) NOT NULL DEFAULT '' COMMENT '雇员姓名',
-  `employee_level` varchar(8) NOT NULL DEFAULT '' COMMENT '雇员级别',
-  `employee_title` varchar(16) NOT NULL DEFAULT '' COMMENT '雇员岗位Title',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_employee_number` (`employee_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+CREATE TABLE `strategy`
+(
+    `id`            bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `strategy_id`   bigint(8) NOT NULL COMMENT '抽奖策略ID',
+    `strategy_desc` varchar(128) NOT NULL COMMENT '抽奖策略描述',
+    `create_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`   datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY             `idx_strategy_id` (`strategy_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ----------------------------
--- Records of employee
--- ----------------------------
+LOCK
+TABLES `strategy` WRITE;
+/*!40000 ALTER TABLE `strategy` DISABLE KEYS */;
 BEGIN;
-INSERT INTO `employee` VALUES (1, '10000001', 'sXvfDpsWnJdLsCVk64tJgw==', 'T-3', '中级工程师', '2023-07-14 15:26:26', '2023-07-14 15:26:26');
-INSERT INTO `employee` VALUES (2, '10000010', 'sXvfDpsWnJdLsCVk64tJgw==', 'T2', '见习工程师', '2023-07-14 15:34:40', '2023-07-14 15:34:40');
-INSERT INTO `employee` VALUES (3, '10000011', 'sXvfDpsWnJdLsCVk64tJgw==', 'T2', '见习工程师', '2023-07-14 15:34:40', '2023-07-14 15:34:40');
-INSERT INTO `employee` VALUES (4, '10000012', 'sXvfDpsWnJdLsCVk64tJgw==', 'T2', '见习工程师', '2023-07-14 15:34:40', '2023-07-14 15:34:40');
-INSERT INTO `employee` VALUES (5, '10000013', 'sXvfDpsWnJdLsCVk64tJgw==', 'T2', '见习工程师', '2023-07-14 15:34:40', '2023-07-14 15:34:40');
-INSERT INTO `employee` VALUES (6, '10000014', 'sXvfDpsWnJdLsCVk64tJgw==', 'T2', '见习工程师', '2023-07-14 15:34:40', '2023-07-14 15:34:40');
-INSERT INTO `employee` VALUES (9, '10000002', 'sXvfDpsWnJdLsCVk64tJgw==', 'T2', '见习工程师', '2023-07-15 07:42:52', '2023-07-15 07:42:52');
-INSERT INTO `employee` VALUES (22, '10000015', 'hMCgLG6WV3CsNBQ1UD6PEQ==', 'T2', '见习工程师', '2023-07-15 08:02:31', '2023-07-15 08:02:31');
-INSERT INTO `employee` VALUES (23, '10000016', 'hMCgLG6WV3CsNBQ1UD6PEQ==', 'T2', '见习工程师', '2023-07-15 08:02:31', '2023-07-15 08:02:31');
-INSERT INTO `employee` VALUES (24, '10000017', 'hMCgLG6WV3CsNBQ1UD6PEQ==', 'T2', '见习工程师', '2023-07-15 08:02:31', '2023-07-15 08:02:31');
-INSERT INTO `employee` VALUES (39, '10000022', 'GyG+V0r6mBCNsdusuKl03g==', 'T1', '实习工程师', '2023-07-15 09:17:49', '2023-07-15 09:17:49');
-COMMIT;
+INSERT INTO `strategy` (`id`, `strategy_id`, `strategy_desc`, `create_time`, `update_time`)
+VALUES (1, 100001, '抽奖策略', '2023-12-09 09:37:19', '2023-12-09 09:37:19');
+commit ;
+-- ----------------------------
+-- 策略奖品
+-- ----------------------------
+CREATE TABLE `strategy_award`
+(
+    `id`                  bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `strategy_id`         bigint(8) NOT NULL COMMENT '抽奖策略ID',
+    `award_id`            int(8) NOT NULL COMMENT '抽奖奖品ID - 内部流转使用',
+    `award_title`         varchar(128)  NOT NULL COMMENT '抽奖奖品标题',
+    `award_subtitle`      varchar(128)           DEFAULT NULL COMMENT '抽奖奖品副标题',
+    `award_count`         int(8) NOT NULL DEFAULT '0' COMMENT '奖品库存总量',
+    `award_count_surplus` int(8) NOT NULL DEFAULT '0' COMMENT '奖品库存剩余',
+    `award_rate`          decimal(6, 4) NOT NULL COMMENT '奖品中奖概率',
+    `rule_models`         varchar(256)           DEFAULT NULL COMMENT '规则模型，rule配置的模型同步到此表，便于使用',
+    `sort`                int(2) NOT NULL DEFAULT '0' COMMENT '排序',
+    `create_time`         datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time`         datetime      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+    PRIMARY KEY (`id`),
+    KEY                   `idx_strategy_id_award_id` (`strategy_id`,`award_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ----------------------------
--- Table structure for employee_salary
--- ----------------------------
-DROP TABLE IF EXISTS `employee_salary`;
-CREATE TABLE `employee_salary` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `employee_number` varchar(16) NOT NULL DEFAULT '' COMMENT '雇员编号',
-  `salary_total_amount` decimal(8,2) NOT NULL COMMENT '薪资总额',
-  `salary_merit_amount` decimal(8,2) NOT NULL COMMENT '绩效工资',
-  `salary_base_amount` decimal(8,2) NOT NULL COMMENT '基础工资',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx_employee_number` (`employee_number`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of employee_salary
--- ----------------------------
+LOCK
+TABLES `strategy_award` WRITE;
+/*!40000 ALTER TABLE `strategy_award` DISABLE KEYS */;
 BEGIN;
-INSERT INTO `employee_salary` VALUES (1, '10000001', 5100.00, 1020.00, 4080.00, '2023-07-14 16:09:06', '2023-07-14 16:09:06');
-INSERT INTO `employee_salary` VALUES (2, '10000010', 5000.00, 1000.00, 4000.00, '2023-07-14 16:17:10', '2023-07-14 16:17:10');
-INSERT INTO `employee_salary` VALUES (3, '10000011', 5000.00, 1000.00, 4000.00, '2023-07-14 16:17:10', '2023-07-14 16:17:10');
-INSERT INTO `employee_salary` VALUES (4, '10000012', 5000.00, 1000.00, 4000.00, '2023-07-14 16:17:10', '2023-07-14 16:17:10');
-INSERT INTO `employee_salary` VALUES (5, '10000013', 5000.00, 1000.00, 4000.00, '2023-07-14 16:17:10', '2023-07-14 16:17:10');
-INSERT INTO `employee_salary` VALUES (6, '10000014', 5000.00, 1000.00, 4000.00, '2023-07-14 16:17:10', '2023-07-14 16:17:10');
-INSERT INTO `employee_salary` VALUES (8, '10000022', 100.00, 10.00, 90.00, '2023-07-15 09:17:49', '2023-07-15 09:17:49');
-COMMIT;
+INSERT INTO `strategy_award` (`id`, `strategy_id`, `award_id`, `award_title`, `award_subtitle`, `award_count`,
+                              `award_count_surplus`, `award_rate`, `rule_models`, `sort`, `create_time`, `update_time`)
+VALUES (1, 100001, 101, '随机积分', NULL, 80000, 80000, 80.0000, 'rule_random,rule_luck_award', 1,
+        '2023-12-09 09:38:31', '2023-12-09 10:58:06'),
+       (2, 100001, 102, '5次使用', NULL, 10000, 10000, 10.0000, 'rule_luck_award', 2, '2023-12-09 09:39:18',
+        '2023-12-09 10:34:23'),
+       (3, 100001, 103, '10次使用', NULL, 5000, 5000, 5.0000, 'rule_luck_award', 3, '2023-12-09 09:42:36',
+        '2023-12-09 10:34:24'),
+       (4, 100001, 104, '20次使用', NULL, 4000, 4000, 4.0000, 'rule_luck_award', 4, '2023-12-09 09:43:15',
+        '2023-12-09 10:34:25'),
+       (5, 100001, 105, '增加gpt-4对话模型', NULL, 600, 600, 0.6000, 'rule_luck_award', 5, '2023-12-09 09:43:47',
+        '2023-12-09 10:34:26'),
+       (6, 100001, 106, '增加dall-e-2画图模型', NULL, 200, 200, 0.2000, 'rule_luck_award', 6, '2023-12-09 09:44:20',
+        '2023-12-09 10:34:26'),
+       (7, 100001, 107, '增加dall-e-3画图模型', '抽奖1次后解锁', 200, 200, 0.2000, 'rule_lock,rule_luck_award', 7,
+        '2023-12-09 09:45:38', '2023-12-09 10:30:59'),
+       (8, 100001, 108, '增加100次使用', '抽奖2次后解锁', 199, 199, 0.1999, 'rule_lock,rule_luck_award', 8,
+        '2023-12-09 09:46:02', '2023-12-09 12:20:52'),
+       (9, 100001, 109, '解锁全部模型', '抽奖6次后解锁', 1, 1, 0.0001, 'rule_lock,rule_luck_award', 9,
+        '2023-12-09 09:46:39', '2023-12-09 12:20:50');
+commit ;
+-- ----------------------------
+-- 策略规则
+-- ----------------------------
+CREATE TABLE `strategy_rule`
+(
+    `id`          bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+    `strategy_id` int(8) NOT NULL COMMENT '抽奖策略ID',
+    `award_id`    int(8) DEFAULT NULL COMMENT '抽奖奖品ID【规则类型为策略，则不需要奖品ID】',
+    `rule_type`   tinyint(1) NOT NULL DEFAULT '0' COMMENT '抽象规则类型；1-策略规则、2-奖品规则',
+    `rule_model`  varchar(16)  NOT NULL COMMENT '抽奖规则类型【rule_random - 随机值计算、rule_lock - 抽奖几次后解锁、rule_luck_award - 幸运奖(兜底奖品)】',
+    `rule_value`  varchar(64)  NOT NULL COMMENT '抽奖规则比值',
+    `rule_desc`   varchar(128) NOT NULL COMMENT '抽奖规则描述',
+    `create_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    PRIMARY KEY (`id`),
+    KEY           `idx_strategy_id_award_id` (`strategy_id`,`award_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- ----------------------------
--- Table structure for employee_salary_adjust
--- ----------------------------
-DROP TABLE IF EXISTS `employee_salary_adjust`;
-CREATE TABLE `employee_salary_adjust` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `employee_number` varchar(16) NOT NULL DEFAULT '' COMMENT '雇员编号',
-  `adjust_order_id` varchar(32) NOT NULL DEFAULT '' COMMENT '调薪单号',
-  `adjust_total_amount` decimal(8,2) NOT NULL COMMENT '总额调薪',
-  `adjust_base_amount` decimal(8,2) NOT NULL COMMENT '基础调薪',
-  `adjust_merit_amount` decimal(8,2) NOT NULL COMMENT '绩效调薪',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_order_id` (`adjust_order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of employee_salary_adjust
--- ----------------------------
+LOCK
+TABLES `strategy_rule` WRITE;
+/*!40000 ALTER TABLE `strategy_rule` DISABLE KEYS */;
 BEGIN;
-INSERT INTO `employee_salary_adjust` VALUES (1, '10000001', '109089990198888811', 1000.00, 800.00, 200.00, '2023-07-14 16:55:53', '2023-07-14 16:55:53');
-INSERT INTO `employee_salary_adjust` VALUES (2, '10000001', '100908977676001', 100.00, 20.00, 80.00, '2023-07-14 21:57:39', '2023-07-14 21:57:39');
-COMMIT;
+INSERT INTO `strategy_rule` (`id`, `strategy_id`, `award_id`, `rule_type`, `rule_model`, `rule_value`, `rule_desc`,
+                             `create_time`, `update_time`)
+VALUES (1, 100001, 101, 2, 'rule_random', '1,1000', '随机积分策略', '2023-12-09 10:05:30', '2023-12-09 12:55:52'),
+       (2, 100001, 107, 2, 'rule_lock', '1', '抽奖1次后解锁', '2023-12-09 10:16:41', '2023-12-09 12:55:53'),
+       (3, 100001, 108, 2, 'rule_lock', '2', '抽奖2次后解锁', '2023-12-09 10:17:43', '2023-12-09 12:55:54'),
+       (4, 100001, 109, 2, 'rule_lock', '6', '抽奖6次后解锁', '2023-12-09 10:17:43', '2023-12-09 12:55:54'),
+       (5, 100001, 107, 2, 'rule_luck_award', '1,100', '兜底奖品100以内随机积分', '2023-12-09 10:30:12',
+        '2023-12-09 12:55:55'),
+       (6, 100001, 108, 2, 'rule_luck_award', '1,100', '兜底奖品100以内随机积分', '2023-12-09 10:30:43',
+        '2023-12-09 12:55:56'),
+       (7, 100001, 101, 2, 'rule_luck_award', '1,10', '兜底奖品10以内随机积分', '2023-12-09 10:30:43',
+        '2023-12-09 12:55:57'),
+       (8, 100001, 102, 2, 'rule_luck_award', '1,20', '兜底奖品20以内随机积分', '2023-12-09 10:30:43',
+        '2023-12-09 12:55:57'),
+       (9, 100001, 103, 2, 'rule_luck_award', '1,30', '兜底奖品30以内随机积分', '2023-12-09 10:30:43',
+        '2023-12-09 12:55:58'),
+       (10, 100001, 104, 2, 'rule_luck_award', '1,40', '兜底奖品40以内随机积分', '2023-12-09 10:30:43',
+        '2023-12-09 12:55:59'),
+       (11, 100001, 105, 2, 'rule_luck_award', '1,50', '兜底奖品50以内随机积分', '2023-12-09 10:30:43',
+        '2023-12-09 12:56:00'),
+       (12, 100001, 106, 2, 'rule_luck_award', '1,60', '兜底奖品60以内随机积分', '2023-12-09 10:30:43',
+        '2023-12-09 12:56:00'),
+       (13, 100001, NULL, 1, 'rule_weight', '6000,102,103,104,105,106,107,108,109', '消耗6000分，必中奖范围',
+        '2023-12-09 10:30:43', '2023-12-09 12:58:21'),
+       (14, 100001, NULL, 1, 'rule_blacklist', '1', '黑名单抽奖，积分兜底', '2023-12-09 12:59:45',
+        '2023-12-09 13:42:23');
+commit ;
