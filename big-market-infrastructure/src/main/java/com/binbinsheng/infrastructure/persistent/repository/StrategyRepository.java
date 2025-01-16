@@ -5,9 +5,15 @@ package com.binbinsheng.infrastructure.persistent.repository;
  */
 
 import com.binbinsheng.domain.strategy.model.entity.StrategyAwardEntity;
+import com.binbinsheng.domain.strategy.model.entity.StrategyEntity;
+import com.binbinsheng.domain.strategy.model.entity.StrategyRuleEntity;
 import com.binbinsheng.domain.strategy.repository.IStrategyRepository;
 import com.binbinsheng.infrastructure.persistent.dao.IStrategyAwardDao;
+import com.binbinsheng.infrastructure.persistent.dao.IStrategyDao;
+import com.binbinsheng.infrastructure.persistent.dao.IStrategyRuleDao;
+import com.binbinsheng.infrastructure.persistent.po.Strategy;
 import com.binbinsheng.infrastructure.persistent.po.StrategyAward;
+import com.binbinsheng.infrastructure.persistent.po.StrategyRule;
 import com.binbinsheng.infrastructure.persistent.redis.IRedisService;
 import com.binbinsheng.types.common.Constants;
 import org.springframework.stereotype.Repository;
@@ -17,6 +23,12 @@ import java.util.*;
 
 @Repository
 public class StrategyRepository implements IStrategyRepository {
+
+    @Resource
+    private IStrategyRuleDao strategyRuleDao;
+
+    @Resource
+    private IStrategyDao strategyDao;
 
     @Resource
     private IStrategyAwardDao strategyAwardDao;
@@ -51,23 +63,66 @@ public class StrategyRepository implements IStrategyRepository {
     }
 
     @Override
-    public void storeStrategyAwardSearchRateTable(Long strategyId, Integer rateRange, Map<Integer, Integer> shuffledStrategyAwardSearchRateTable) {
+    public void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<Integer, Integer> shuffledStrategyAwardSearchRateTable) {
         //1. 存储抽奖策略范围
-        redisService.setValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + strategyId, rateRange);
+        redisService.setValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key, rateRange);
         //2.存储概率查找表
-        Map<Integer, Integer> cacheRateTable = redisService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + strategyId);
+        Map<Integer, Integer> cacheRateTable = redisService.getMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + key);
         cacheRateTable.putAll(shuffledStrategyAwardSearchRateTable);
 
     }
 
     @Override
     public int getRateRange(Long strategyId) {
-        return redisService.getValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + strategyId);
+        return getRateRange(String.valueOf(strategyId));
+                /*redisService.getValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + strategyId)*/
+    }
+
+    @Override
+    public int getRateRange(String key) {
+        return redisService.getValue(Constants.RedisKey.STRATEGY_RATE_RANGE_KEY + key);
     }
 
     //抽奖
     @Override
-    public Integer getStrategyAwardAssemble(Long strategyId, Integer rateKey) {
-        return redisService.getFromMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + strategyId, rateKey);
+    public Integer getStrategyAwardAssemble(String key, Integer rateKey) {
+        return redisService.getFromMap(Constants.RedisKey.STRATEGY_RATE_TABLE_KEY + key, rateKey);
     }
+
+    @Override
+    public StrategyEntity queryStrategyEntity(Long strategyId) {
+        //到Redis查找
+        String cacheKey = Constants.RedisKey.STRATEGY_KEY + strategyId;
+        StrategyEntity strategyEntity = redisService.getValue(cacheKey);
+        if (strategyEntity != null) {
+            return strategyEntity;
+        }
+        //否则到数据库查找
+        Strategy strategy = strategyDao.queryStrategyByStrategyId(strategyId);
+        strategyEntity = StrategyEntity.builder()
+                .strategyId(strategy.getStrategyId())
+                .strategyDesc(strategy.getStrategyDesc())
+                .ruleModels(strategy.getRuleModels())
+                .build();
+        redisService.setValue(cacheKey, strategyEntity);
+        return strategyEntity;
+    }
+
+
+    @Override
+    public StrategyRuleEntity queryStrategyRuleEntity(Long strategyId, String ruleModel) {
+        StrategyRule strategyRuleReq = new StrategyRule();
+        strategyRuleReq.setStrategyId(strategyId);
+        strategyRuleReq.setRuleModel(ruleModel);
+        StrategyRule strategyRuleRes = strategyRuleDao.queryStrategyRule(strategyRuleReq);
+        return StrategyRuleEntity.builder()
+                .strategyId(strategyRuleRes.getStrategyId())
+                .awardId(strategyRuleRes.getAwardId())
+                .ruleType(strategyRuleRes.getRuleType())
+                .ruleModel(strategyRuleRes.getRuleModel())
+                .ruleValue(strategyRuleRes.getRuleValue())
+                .ruleDesc(strategyRuleRes.getRuleDesc())
+                .build();
+    }
+
 }

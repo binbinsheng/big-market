@@ -5,10 +5,9 @@ package com.binbinsheng.domain.strategy.repository;
  */
 
 import com.binbinsheng.domain.strategy.model.entity.StrategyAwardEntity;
-import org.springframework.stereotype.Repository;
+import com.binbinsheng.domain.strategy.model.entity.StrategyEntity;
+import com.binbinsheng.domain.strategy.model.entity.StrategyRuleEntity;
 
-import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,9 +15,15 @@ import java.util.Map;
 public interface IStrategyRepository {
     List<StrategyAwardEntity> queryStrategyAwardList(Long strategyId);
 
-    void storeStrategyAwardSearchRateTable(Long strategyId, Integer rateRange, Map<Integer, Integer> shuffledStrategyAwardSearchRateTable);
+    void storeStrategyAwardSearchRateTable(String key, Integer rateRange, Map<Integer, Integer> shuffledStrategyAwardSearchRateTable);
 
     int getRateRange(Long strategyId);
 
-    Integer getStrategyAwardAssemble(Long strategyId, Integer rateKey);
+    int getRateRange(String key);
+
+    Integer getStrategyAwardAssemble(String key, Integer rateKey);
+
+    StrategyEntity queryStrategyEntity(Long strategyId);
+
+    StrategyRuleEntity queryStrategyRuleEntity(Long strategyId, String ruleModel);
 }

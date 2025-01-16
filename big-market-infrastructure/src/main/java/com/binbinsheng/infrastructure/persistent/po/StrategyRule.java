@@ -14,7 +14,7 @@ public class StrategyRule {
     //自增ID
     private Long id;
     //抽奖策略ID
-    private Integer strategyId;
+    private Long strategyId;
     //抽奖奖品ID【规则类型为策略，则不需要奖品ID】
     private Integer awardId;
     //抽象规则类型；1-策略规则、2-奖品规则
