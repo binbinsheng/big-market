@@ -26,7 +26,7 @@ public class StrategyEntity {
     //抽獎規則模型
     private String ruleModels;
 
-    private String[] ruleModels(){
+    public String[] ruleModels(){
         if (StringUtils.isBlank(ruleModels)){
             return null;
         }
