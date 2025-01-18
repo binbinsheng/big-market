@@ -7,6 +7,7 @@ package com.binbinsheng.infrastructure.persistent.repository;
 import com.binbinsheng.domain.strategy.model.entity.StrategyAwardEntity;
 import com.binbinsheng.domain.strategy.model.entity.StrategyEntity;
 import com.binbinsheng.domain.strategy.model.entity.StrategyRuleEntity;
+import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import com.binbinsheng.domain.strategy.repository.IStrategyRepository;
 import com.binbinsheng.infrastructure.persistent.dao.IStrategyAwardDao;
 import com.binbinsheng.infrastructure.persistent.dao.IStrategyDao;
@@ -133,6 +134,17 @@ public class StrategyRepository implements IStrategyRepository {
         strategyRuleReq.setRuleModel(ruleModel);
 
         return strategyRuleDao.queryStrategyRuleValue(strategyRuleReq);
+    }
+
+    @Override
+    public StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId) {
+        StrategyAward strategyAward = new StrategyAward();
+        strategyAward.setStrategyId(strategyId);
+        strategyAward.setAwardId(awardId);
+        String ruleModels = strategyAwardDao.queryStrategyAwardRuleModel(strategyAward);
+        return StrategyAwardRuleModelVO.builder()
+                        .ruleModels(ruleModels)
+                        .build();
     }
 
 }
