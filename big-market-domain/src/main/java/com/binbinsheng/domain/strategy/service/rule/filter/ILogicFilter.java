@@ -1,4 +1,4 @@
-package com.binbinsheng.domain.strategy.service.rule;
+package com.binbinsheng.domain.strategy.service.rule.filter;
 
 import com.binbinsheng.domain.strategy.model.entity.RuleActionEntity;
 import com.binbinsheng.domain.strategy.model.entity.RuleMatterEntity;
