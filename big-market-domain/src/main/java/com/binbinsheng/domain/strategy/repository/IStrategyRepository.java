@@ -7,6 +7,7 @@ package com.binbinsheng.domain.strategy.repository;
 import com.binbinsheng.domain.strategy.model.entity.StrategyAwardEntity;
 import com.binbinsheng.domain.strategy.model.entity.StrategyEntity;
 import com.binbinsheng.domain.strategy.model.entity.StrategyRuleEntity;
+import com.binbinsheng.domain.strategy.model.valobj.RuleTreeVO;
 import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface IStrategyRepository {
     String queryStrategyRuleValue(Long strategyId, String ruleModel);
 
     StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId);
+
+    RuleTreeVO queryRuleTreeVOByTreeId(String treeId);
 }

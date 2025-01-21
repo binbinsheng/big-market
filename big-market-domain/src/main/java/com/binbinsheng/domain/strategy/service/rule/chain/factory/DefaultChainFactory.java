@@ -4,6 +4,10 @@ import com.binbinsheng.domain.strategy.model.entity.StrategyEntity;
 import com.binbinsheng.domain.strategy.repository.IStrategyRepository;
 import com.binbinsheng.domain.strategy.service.rule.chain.ILogicChain;
 import com.binbinsheng.types.common.Constants;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -21,6 +25,7 @@ public class DefaultChainFactory {
         this.logicChainMap = logicChainMap;
         this.repository = repository;
     }
+
 
     public ILogicChain openLogicChain(Long strategyId){
         StrategyEntity strategy = repository.queryStrategyEntity(strategyId);
@@ -43,10 +48,39 @@ public class DefaultChainFactory {
         current.appendNext(logicChainMap.get("default"));
 
         return logicChain;//有点像返回链表的头节点
+    }
 
 
+    /**
+     * 返回的奖品对象
+     */
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class StrategyAwardVO{
+        private Integer awardId;
+        private String logicModel;
+    }
+
+
+    /**
+     * 提示返回的类型
+     */
+    @Getter
+    @AllArgsConstructor
+    public enum LogicModel {
+
+        RULE_DEFAULT("rule_default", "默认抽奖"),
+        RULE_BLACKLIST("rule_blacklist", "黑名单抽奖"),
+        RULE_WEIGHT("rule_weight", "权重规则"),
+        ;
+
+        private final String code;
+        private final String info;
 
     }
+
 
 
 }

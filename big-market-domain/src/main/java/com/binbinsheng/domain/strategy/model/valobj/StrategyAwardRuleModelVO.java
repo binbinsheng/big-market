@@ -5,8 +5,7 @@ package com.binbinsheng.domain.strategy.model.valobj;
 ，所以不写成entity
  */
 
-import com.binbinsheng.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
-import com.binbinsheng.types.common.Constants;
+
 import lombok.Builder;
 import lombok.Getter;
 
@@ -18,16 +17,5 @@ import java.util.ArrayList;
 public class StrategyAwardRuleModelVO {
 
     private String ruleModels;
-
-    public String[] raffleCenterRuleModelList(){
-        ArrayList<String> ruleModelList = new ArrayList<>();
-        String[] ruleModelValues = ruleModels.split(Constants.SPLIT);
-        for (String ruleModel : ruleModelValues) {
-            if (DefaultLogicFactory.isCenter(ruleModel)){
-                ruleModelList.add(ruleModel);
-            }
-        }
-        return ruleModelList.toArray(new String[ruleModelList.size()]);
-    }
 
 }
