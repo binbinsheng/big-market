@@ -6,6 +6,7 @@ import com.binbinsheng.domain.strategy.model.entity.RaffleFactorEntity;
 import com.binbinsheng.domain.strategy.service.IRaffleStrategy;
 import com.binbinsheng.domain.strategy.service.armory.IStrategyArmory;
 import com.binbinsheng.domain.strategy.service.rule.chain.impl.RuleWeightLogicChain;
+import com.binbinsheng.domain.strategy.service.rule.tree.impl.RuleLockLogicTreeNode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import javax.annotation.Resource;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Fuzhengwei bugstack.cn @小傅哥
@@ -32,7 +34,8 @@ public class RaffleStrategyTest {
     private IRaffleStrategy raffleStrategy;
     @Resource
     private RuleWeightLogicChain ruleWeightLogicChain;
-
+    @Resource
+    private RuleLockLogicTreeNode ruleLockLogicTreeNode;
 
     @Before
     public void setUp() {
@@ -44,19 +47,27 @@ public class RaffleStrategyTest {
 
         // 通过反射 mock 规则中的值
         ReflectionTestUtils.setField(ruleWeightLogicChain, "userScore", 40500L);
+        ReflectionTestUtils.setField(ruleLockLogicTreeNode, "userRaffleCount", 10L);
     }
 
     @Test
-    public void test_performRaffle() {
-        RaffleFactorEntity raffleFactorEntity = RaffleFactorEntity.builder()
-                .userId("xiaofuge")
-                .strategyId(100006L)
-                .build();
+    public void test_performRaffle() throws InterruptedException {
 
-        RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(raffleFactorEntity);
 
-        log.info("请求参数：{}", JSON.toJSONString(raffleFactorEntity));
-        log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
+        for (int i = 0; i < 3; i++) {
+            RaffleFactorEntity raffleFactorEntity = RaffleFactorEntity.builder()
+                    .userId("xiaofuge")
+                    .strategyId(100006L)
+                    .build();
+
+            RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(raffleFactorEntity);
+
+            log.info("请求参数：{}", JSON.toJSONString(raffleFactorEntity));
+            log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
+        }
+        new CountDownLatch(1).await();
+
+
     }
 
     @Test

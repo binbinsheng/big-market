@@ -34,7 +34,7 @@ public class LogicTreeTest {
      *        /              \
      *   rule_luck_award     rule_stock
      *                        /    \
-     *                      放行    拦截
+     *                      拦截    放行
      *                      /        \
      *                抽中了发放奖励   rule_luck_award
      *

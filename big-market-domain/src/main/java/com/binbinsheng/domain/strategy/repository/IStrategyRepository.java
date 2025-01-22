@@ -9,6 +9,7 @@ import com.binbinsheng.domain.strategy.model.entity.StrategyEntity;
 import com.binbinsheng.domain.strategy.model.entity.StrategyRuleEntity;
 import com.binbinsheng.domain.strategy.model.valobj.RuleTreeVO;
 import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
+import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 
 import java.util.List;
 import java.util.Map;
@@ -36,4 +37,14 @@ public interface IStrategyRepository {
     StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Integer awardId);
 
     RuleTreeVO queryRuleTreeVOByTreeId(String treeId);
+
+    void cacheStrategyAwardCount(String cacheKey, Integer awardCount);
+
+    Boolean subtractAwardStock(String cacheKey);
+
+    void awardStockConsumeSendQueue(StrategyAwardStockKeyVO strategyAwardStockKeyVO);
+
+    StrategyAwardStockKeyVO takeQueueValue();
+
+    void updateStrategyAwardStock(Long strategyId, Integer awardId);
 }

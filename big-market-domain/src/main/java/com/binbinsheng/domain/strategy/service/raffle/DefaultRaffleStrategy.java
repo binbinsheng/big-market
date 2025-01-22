@@ -3,6 +3,7 @@ package com.binbinsheng.domain.strategy.service.raffle;
 
 import com.binbinsheng.domain.strategy.model.valobj.RuleTreeVO;
 import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
+import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import com.binbinsheng.domain.strategy.repository.IStrategyRepository;
 import com.binbinsheng.domain.strategy.service.AbstractRaffleStrategy;
 import com.binbinsheng.domain.strategy.service.armory.IStrategyDispatch;
@@ -58,4 +59,13 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
     }
 
 
+    @Override
+    public StrategyAwardStockKeyVO takeQueueValue() throws InterruptedException {
+        return repository.takeQueueValue();
+    }
+
+    @Override
+    public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
+        repository.updateStrategyAwardStock(strategyId, awardId);
+    }
 }

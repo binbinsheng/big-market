@@ -56,15 +56,16 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
         //获得根节点对应的RuleTreeNodeVO对象 rule_lock
         RuleTreeNodeVO ruleTreeNode = treeNodeMap.get(nextNode);
 
-        while (ruleTreeNode != null) {
+        while (nextNode != null) {
             //拿到rule_lock对应的实现类RuleLockLogicTreeNode.java
             ILogicTreeNode LogicTreeNode = logicTreeNodeGroup.get((ruleTreeNode.getRuleKey()));
+            String ruleValue = ruleTreeNode.getRuleValue();
 
             /** logicEntity = DefaultTreeFactory.TreeActionEntity.builder()
                             .ruleLogicCheckTypeVO(RuleLogicCheckTypeVO.ALLOW)
                           .build();
              **/
-            DefaultTreeFactory.TreeActionEntity logicEntity = LogicTreeNode.logic(userId, strategyId, awardId);
+            DefaultTreeFactory.TreeActionEntity logicEntity = LogicTreeNode.logic(userId, strategyId, awardId, ruleValue);
             RuleLogicCheckTypeVO ruleLogicCheckTypeVO = logicEntity.getRuleLogicCheckTypeVO();
             strategyAwardData = logicEntity.getStrategyAwardVO();
             log.info("决策树引擎【{}】 treeId:{} node:{} code:{}",ruleTreeVO.getTreeName(),
@@ -111,7 +112,8 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
                 return nodeLine.getRuleNodeTo();
             }
         }
-        throw new RuntimeException("决策树引擎, nextNode 找不到");
+        return null;
+//        throw new RuntimeException("决策树引擎, nextNode 找不到");
     }
 
     public boolean decisionLogic(String matterValue, RuleTreeNodeLineVO nodeLine) {
