@@ -1,11 +1,14 @@
 package com.binbinsheng.domain.strategy.service.raffle;
 
 
+import com.binbinsheng.domain.strategy.model.entity.StrategyAwardEntity;
 import com.binbinsheng.domain.strategy.model.valobj.RuleTreeVO;
 import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 import com.binbinsheng.domain.strategy.repository.IStrategyRepository;
 import com.binbinsheng.domain.strategy.service.AbstractRaffleStrategy;
+import com.binbinsheng.domain.strategy.service.IRaffleAward;
+import com.binbinsheng.domain.strategy.service.IRaffleStock;
 import com.binbinsheng.domain.strategy.service.armory.IStrategyDispatch;
 import com.binbinsheng.domain.strategy.service.rule.chain.ILogicChain;
 import com.binbinsheng.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
@@ -14,10 +17,13 @@ import com.binbinsheng.domain.strategy.service.rule.tree.factory.DefaultTreeFact
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
+
 
 @Slf4j
 @Service
-public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
+public class DefaultRaffleStrategy extends AbstractRaffleStrategy implements IRaffleAward, IRaffleStock {
 
 
 
@@ -67,5 +73,10 @@ public class DefaultRaffleStrategy extends AbstractRaffleStrategy {
     @Override
     public void updateStrategyAwardStock(Long strategyId, Integer awardId) {
         repository.updateStrategyAwardStock(strategyId, awardId);
+    }
+
+    @Override
+    public List<StrategyAwardEntity> queryRaffleStrategyAwardList(Long strategyId) {
+        return repository.queryStrategyAwardList(strategyId);
     }
 }
