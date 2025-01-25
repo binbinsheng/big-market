@@ -2,6 +2,8 @@ package com.binbinsheng.infrastructure.persistent.po;
 
 import lombok.Data;
 
+import java.util.Date;
+
 
 /**
  * 抽奖活动次数配置表

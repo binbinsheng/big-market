@@ -2,6 +2,8 @@ package com.binbinsheng.infrastructure.persistent.po;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  *
  * @description 抽奖活动账户表 持久化对象
