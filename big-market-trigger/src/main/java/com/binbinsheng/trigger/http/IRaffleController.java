@@ -69,7 +69,7 @@ public class IRaffleController implements IRaffleService {
         }
     }
 
-    @RequestMapping(value = "queryRaffleAwardList", method = RequestMethod.POST)
+    @RequestMapping(value = "query_raffle_award_list", method = RequestMethod.POST)
     @Override
     public Response<List<RaffleAwardListResponseDTO>> queryRaffleAwardList(@RequestBody RaffleAwardListRequestDTO requestDTO) {
 

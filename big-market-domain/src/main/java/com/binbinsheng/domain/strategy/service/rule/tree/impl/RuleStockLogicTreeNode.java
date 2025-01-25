@@ -45,7 +45,7 @@ public class RuleStockLogicTreeNode implements ILogicTreeNode {
                             .build());
 
             return DefaultTreeFactory.TreeActionEntity.builder()
-                    .ruleLogicCheckTypeVO(RuleLogicCheckTypeVO.ALLOW)
+                    .ruleLogicCheckTypeVO(RuleLogicCheckTypeVO.TAKE_OVER)
                     .strategyAwardVO(DefaultTreeFactory.StrategyAwardVO.builder()
                             .awardId(awardId)
                             .awardRuleValue(ruleValue)
@@ -56,7 +56,7 @@ public class RuleStockLogicTreeNode implements ILogicTreeNode {
         }
 
         return DefaultTreeFactory.TreeActionEntity.builder()
-                .ruleLogicCheckTypeVO(RuleLogicCheckTypeVO.TAKE_OVER)
+                .ruleLogicCheckTypeVO(RuleLogicCheckTypeVO.ALLOW)
                 .build();
 
     }
