@@ -1,5 +1,6 @@
 package com.binbinsheng.domain.activity.respository;
 
+import com.binbinsheng.domain.activity.model.aggregate.CreateOrderAggregate;
 import com.binbinsheng.domain.activity.model.entity.ActivityCountEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivitySkuEntity;
@@ -18,4 +19,5 @@ public interface IActivityRepository {
 
     ActivityCountEntity queryRaffleActivityCountByActivityCountId(Long activityCountId);
 
+    void doSaveOrder(CreateOrderAggregate createOrderAggregate);
 }

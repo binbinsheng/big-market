@@ -6,7 +6,7 @@ import com.binbinsheng.domain.strategy.service.rule.chain.factory.DefaultChainFa
  * 责任链接口
  */
 
-public interface ILogicChain extends ILogicChainArmory{
+public interface ILogicChain extends ILogicChainArmory {
 
     /**
      * userId 用户ID

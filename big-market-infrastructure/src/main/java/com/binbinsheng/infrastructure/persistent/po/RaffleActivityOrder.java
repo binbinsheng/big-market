@@ -16,6 +16,13 @@ public class RaffleActivityOrder {
      */
     private Long id;
 
+
+    /**
+     * sku
+     */
+    private Long sku;
+
+
     /**
      * 用户ID
      */
@@ -65,6 +72,11 @@ public class RaffleActivityOrder {
      * 订单状态
      */
     private String state;
+
+    /**
+     * 业务防重Id
+     */
+    private String outBusinessNo;
 
     /**
      * 创建时间
