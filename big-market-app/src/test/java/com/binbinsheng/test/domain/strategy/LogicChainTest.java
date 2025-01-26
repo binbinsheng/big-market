@@ -1,4 +1,4 @@
-package com.binbinsheng.test.domain;
+package com.binbinsheng.test.domain.strategy;
 
 import com.alibaba.fastjson.JSON;
 import com.binbinsheng.domain.strategy.service.armory.IStrategyArmory;

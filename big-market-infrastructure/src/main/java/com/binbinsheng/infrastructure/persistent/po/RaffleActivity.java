@@ -9,6 +9,8 @@ import java.util.Date;
  * @description 抽奖活动表 持久化对象
  *
  */
+
+
 @Data
 public class RaffleActivity {
 
@@ -43,21 +45,6 @@ public class RaffleActivity {
     private Date endDateTime;
 
     /**
-     * 库存总量
-     */
-    private Integer stockCount;
-
-    /**
-     * 剩余库存
-     */
-    private Integer stockCountSurplus;
-
-    /**
-     * 活动参与次数配置
-     */
-    private Long activityCountId;
-
-    /**
      * 抽奖策略ID
      */
     private Long strategyId;
@@ -76,6 +63,8 @@ public class RaffleActivity {
      * 更新时间
      */
     private Date updateTime;
-
 }
+
+
+
 
