@@ -10,6 +10,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
+
 public enum ActivityStateVO {
 
     create("create", "创建"),

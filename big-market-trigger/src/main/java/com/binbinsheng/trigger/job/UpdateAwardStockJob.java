@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * @create 2024-02-09 12:13
  */
 @Slf4j
-@Component()
+@Component
 public class UpdateAwardStockJob {
 
     @Resource

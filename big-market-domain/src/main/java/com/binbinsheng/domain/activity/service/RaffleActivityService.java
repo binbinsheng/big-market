@@ -4,6 +4,7 @@ import com.binbinsheng.domain.activity.model.aggregate.CreateOrderAggregate;
 import com.binbinsheng.domain.activity.model.entity.*;
 import com.binbinsheng.domain.activity.respository.IActivityRepository;
 import com.binbinsheng.domain.activity.service.rule.factory.DefaultActivityChainFactory;
+import com.binbinsheng.domain.activity.valobj.ActivitySkuStockKeyVO;
 import com.binbinsheng.domain.activity.valobj.OrderStateVO;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
@@ -12,9 +13,9 @@ import java.util.Date;
 
 
 @Service
-public class RaffleActivity extends AbstractRaffleActivity{
+public class RaffleActivityService extends AbstractRaffleActivity implements ISkuStock{
 
-    public RaffleActivity(IActivityRepository repository, DefaultActivityChainFactory defaultChainFactory) {
+    public RaffleActivityService(IActivityRepository repository, DefaultActivityChainFactory defaultChainFactory) {
         super(repository, defaultChainFactory);
     }
 
@@ -24,7 +25,7 @@ public class RaffleActivity extends AbstractRaffleActivity{
     }
 
     @Override
-    protected CreateOrderAggregate bulidOrderAggregate(SkuRechargeEntity skuRechargeEntity, ActivitySkuEntity activitySkuEntity,
+    protected CreateOrderAggregate buildOrderAggregate(SkuRechargeEntity skuRechargeEntity, ActivitySkuEntity activitySkuEntity,
                                                        ActivityEntity activityEntity, ActivityCountEntity activityCountEntity) {
 
         // 订单实体对象
@@ -55,6 +56,23 @@ public class RaffleActivity extends AbstractRaffleActivity{
     }
 
 
+    @Override
+    public ActivitySkuStockKeyVO takeQueueValue() {
+        return repository.takeQueueValue();
+    }
 
+    @Override
+    public void clearQueueValue() {
+        repository.clearQueueValue();
+    }
 
+    @Override
+    public void updateActivitySkuStock(Long sku) {
+        repository.updateActivitySkuStock(sku);
+    }
+
+    @Override
+    public void clearActivitySkuStock(Long sku) {
+        repository.clearActivitySkuStock(sku);
+    }
 }

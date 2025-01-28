@@ -6,7 +6,6 @@ import com.binbinsheng.domain.activity.model.entity.*;
 import com.binbinsheng.domain.activity.respository.IActivityRepository;
 import com.binbinsheng.domain.activity.service.rule.IActionChain;
 import com.binbinsheng.domain.activity.service.rule.factory.DefaultActivityChainFactory;
-import com.binbinsheng.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
 import com.binbinsheng.types.enums.ResponseCode;
 import com.binbinsheng.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
@@ -44,10 +43,11 @@ public abstract class AbstractRaffleActivity extends RaffleActivitySupport imple
 
         //3.活动动作规则校验
         IActionChain actionChain = defaultChainFactory.openActionChain();
-        boolean actionBoolean = actionChain.action(activitySkuEntity, activityEntity, activityCountEntity);
+        //错误会抛异常
+        actionChain.action(activitySkuEntity, activityEntity, activityCountEntity);
 
         //4.构建订单聚合对象
-        CreateOrderAggregate createOrderAggregate = bulidOrderAggregate(skuRechargeEntity, activitySkuEntity, activityEntity, activityCountEntity);
+        CreateOrderAggregate createOrderAggregate = buildOrderAggregate(skuRechargeEntity, activitySkuEntity, activityEntity, activityCountEntity);
 
         //5.保存订单
         doSaveOrder(createOrderAggregate);
@@ -57,6 +57,6 @@ public abstract class AbstractRaffleActivity extends RaffleActivitySupport imple
 
     protected abstract void doSaveOrder(CreateOrderAggregate createOrderAggregate);
 
-    protected abstract CreateOrderAggregate bulidOrderAggregate(SkuRechargeEntity skuRechargeEntity, ActivitySkuEntity activitySkuEntity, ActivityEntity activityEntity,
+    protected abstract CreateOrderAggregate buildOrderAggregate(SkuRechargeEntity skuRechargeEntity, ActivitySkuEntity activitySkuEntity, ActivityEntity activityEntity,
                                                                 ActivityCountEntity activityCountEntity);
 }

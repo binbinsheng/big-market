@@ -14,7 +14,7 @@ import javax.annotation.Resource;
 @Slf4j
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class RaffleActivitySkuDaoTest {
+public class RaffleActivityServiceSkuDaoTest {
 
     @Resource
     IRaffleActivitySkuDao raffleActivitySkuDao;

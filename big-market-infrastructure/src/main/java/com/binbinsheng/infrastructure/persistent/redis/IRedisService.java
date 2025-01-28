@@ -2,6 +2,8 @@ package com.binbinsheng.infrastructure.persistent.redis;
 
 import org.redisson.api.*;
 
+import java.util.concurrent.TimeUnit;
+
 public interface IRedisService {
 
     /**
@@ -247,4 +249,6 @@ public interface IRedisService {
     void setAtomicLong(String key, long value);
 
     Boolean setNx(String key);
+
+    Boolean setNx(String key, long expired, TimeUnit timeUnit);
 }

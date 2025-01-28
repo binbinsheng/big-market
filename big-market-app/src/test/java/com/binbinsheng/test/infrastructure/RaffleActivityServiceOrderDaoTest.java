@@ -18,7 +18,7 @@ import java.util.Date;
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RaffleActivityOrderDaoTest {
+public class RaffleActivityServiceOrderDaoTest {
 
     @Resource
     private IRaffleActivityOrderDao raffleActivityOrderDao;
