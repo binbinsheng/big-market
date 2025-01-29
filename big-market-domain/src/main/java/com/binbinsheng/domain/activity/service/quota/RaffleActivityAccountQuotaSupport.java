@@ -1,22 +1,21 @@
-package com.binbinsheng.domain.activity.service;
+package com.binbinsheng.domain.activity.service.quota;
 
 import com.binbinsheng.domain.activity.model.entity.ActivityCountEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivitySkuEntity;
 import com.binbinsheng.domain.activity.respository.IActivityRepository;
-import com.binbinsheng.domain.activity.service.rule.factory.DefaultActivityChainFactory;
-import com.binbinsheng.domain.strategy.service.rule.chain.factory.DefaultChainFactory;
+import com.binbinsheng.domain.activity.service.quota.rule.factory.DefaultActivityChainFactory;
 
 /**
  * 抽奖活动支持类
  */
 
-public class RaffleActivitySupport {
+public class RaffleActivityAccountQuotaSupport {
 
     protected IActivityRepository repository;
     protected DefaultActivityChainFactory defaultChainFactory;
 
-    public RaffleActivitySupport(IActivityRepository repository, DefaultActivityChainFactory defaultChainFactory) {
+    public RaffleActivityAccountQuotaSupport(IActivityRepository repository, DefaultActivityChainFactory defaultChainFactory) {
         this.repository = repository;
         this.defaultChainFactory = defaultChainFactory;
     }

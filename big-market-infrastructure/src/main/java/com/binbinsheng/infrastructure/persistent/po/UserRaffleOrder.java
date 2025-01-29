@@ -1,13 +1,21 @@
 package com.binbinsheng.infrastructure.persistent.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import java.util.Date;
 
 /**
  * 用户抽奖订单表
  */
 
+@Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserRaffleOrder {
 
     /** 用户ID */

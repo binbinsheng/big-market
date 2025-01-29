@@ -1,14 +1,12 @@
-package com.binbinsheng.domain.activity.service.rule.impl;
+package com.binbinsheng.domain.activity.service.quota.rule.impl;
 
 import com.binbinsheng.domain.activity.model.entity.ActivityCountEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivitySkuEntity;
 import com.binbinsheng.domain.activity.respository.IActivityRepository;
 import com.binbinsheng.domain.activity.service.armory.IActivityDispatch;
-import com.binbinsheng.domain.activity.service.rule.AbstractActionChain;
+import com.binbinsheng.domain.activity.service.quota.rule.AbstractActionChain;
 import com.binbinsheng.domain.activity.valobj.ActivitySkuStockKeyVO;
-import com.binbinsheng.domain.activity.valobj.ActivityStateVO;
-import com.binbinsheng.domain.strategy.service.armory.IStrategyDispatch;
 import com.binbinsheng.types.enums.ResponseCode;
 import com.binbinsheng.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;

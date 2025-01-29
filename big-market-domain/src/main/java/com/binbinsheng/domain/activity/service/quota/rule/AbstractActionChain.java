@@ -1,6 +1,4 @@
-package com.binbinsheng.domain.activity.service.rule;
-
-import com.binbinsheng.domain.strategy.service.rule.chain.ILogicChain;
+package com.binbinsheng.domain.activity.service.quota.rule;
 
 public abstract class AbstractActionChain implements IActionChain{
 

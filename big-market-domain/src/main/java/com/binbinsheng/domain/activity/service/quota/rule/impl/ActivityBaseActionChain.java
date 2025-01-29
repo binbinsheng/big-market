@@ -1,16 +1,13 @@
-package com.binbinsheng.domain.activity.service.rule.impl;
+package com.binbinsheng.domain.activity.service.quota.rule.impl;
 
 import com.binbinsheng.domain.activity.model.entity.ActivityCountEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivitySkuEntity;
-import com.binbinsheng.domain.activity.service.rule.AbstractActionChain;
+import com.binbinsheng.domain.activity.service.quota.rule.AbstractActionChain;
 import com.binbinsheng.domain.activity.valobj.ActivityStateVO;
 import com.binbinsheng.types.enums.ResponseCode;
 import com.binbinsheng.types.exception.AppException;
-import com.binbinsheng.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;

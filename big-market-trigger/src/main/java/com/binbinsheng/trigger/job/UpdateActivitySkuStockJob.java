@@ -1,9 +1,7 @@
 package com.binbinsheng.trigger.job;
 
-import com.binbinsheng.domain.activity.service.ISkuStock;
+import com.binbinsheng.domain.activity.service.IRaffleActivitySkuStockService;
 import com.binbinsheng.domain.activity.valobj.ActivitySkuStockKeyVO;
-import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
-import com.binbinsheng.domain.strategy.service.IRaffleStock;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -16,7 +14,7 @@ public class UpdateActivitySkuStockJob {
 
 
     @Resource
-    private ISkuStock skuStock;
+    private IRaffleActivitySkuStockService skuStock;
 
     @Scheduled(cron = "0/5 * * * * ?")
     public void exec() {

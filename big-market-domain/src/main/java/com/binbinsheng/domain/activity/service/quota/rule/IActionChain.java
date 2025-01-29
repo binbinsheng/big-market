@@ -1,4 +1,4 @@
-package com.binbinsheng.domain.activity.service.rule;
+package com.binbinsheng.domain.activity.service.quota.rule;
 
 import com.binbinsheng.domain.activity.model.entity.ActivityCountEntity;
 import com.binbinsheng.domain.activity.model.entity.ActivityEntity;

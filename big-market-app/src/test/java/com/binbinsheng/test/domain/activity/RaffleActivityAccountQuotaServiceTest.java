@@ -1,8 +1,8 @@
 package com.binbinsheng.test.domain.activity;
 
 import com.binbinsheng.domain.activity.model.entity.SkuRechargeEntity;
-import com.binbinsheng.domain.activity.service.IRaffleOrder;
-import com.binbinsheng.domain.activity.service.armory.ActivityArmory;
+import com.binbinsheng.domain.activity.service.IRaffleActivityAccountQuotaService;
+import com.binbinsheng.domain.activity.service.armory.IActivityArmory;
 import com.binbinsheng.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -17,22 +17,23 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * @author Fuzhengwei bugstack.cn @小傅哥
- * @description 抽奖活动订单单测
- * @create 2024-03-16 11:51
+ * @description 抽奖活动参与服务测试
+ * @create 2024-04-05 12:28
  */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RaffleOrderTest {
-    @Resource
-    private IRaffleOrder raffleOrder;
+public class RaffleActivityAccountQuotaServiceTest {
+
 
     @Resource
-    ActivityArmory activityArmory;
+    private IRaffleActivityAccountQuotaService raffleActivityAccountQuotaService;
+    @Resource
+    private IActivityArmory activityArmory;
 
     @Before
-    public void setup(){
-        log.info("装配活动:{}", activityArmory.assembleActivitySku(9011L));
+    public void setUp() {
+        log.info("装配活动：{}", activityArmory.assembleActivitySku(9011L));
     }
 
     @Test
@@ -41,8 +42,8 @@ public class RaffleOrderTest {
         skuRechargeEntity.setUserId("xiaofuge");
         skuRechargeEntity.setSku(9011L);
         // outBusinessNo 作为幂等仿重使用，同一个业务单号2次使用会抛出索引冲突 Duplicate entry '700091009111' for key 'uq_out_business_no' 确保唯一性。
-        skuRechargeEntity.setOutBusinessNo("700091009111");
-        String orderId = raffleOrder.createSkuRechargeOrder(skuRechargeEntity);
+        skuRechargeEntity.setOutBusinessNo("700091009119");
+        String orderId = raffleActivityAccountQuotaService.createOrder(skuRechargeEntity);
         log.info("测试结果：{}", orderId);
     }
 
@@ -61,7 +62,7 @@ public class RaffleOrderTest {
                 skuRechargeEntity.setSku(9011L);
                 // outBusinessNo 作为幂等仿重使用，同一个业务单号2次使用会抛出索引冲突 Duplicate entry '700091009111' for key 'uq_out_business_no' 确保唯一性。
                 skuRechargeEntity.setOutBusinessNo(RandomStringUtils.randomNumeric(12));
-                String orderId = raffleOrder.createSkuRechargeOrder(skuRechargeEntity);
+                String orderId = raffleActivityAccountQuotaService.createOrder(skuRechargeEntity);
                 log.info("测试结果：{}", orderId);
             } catch (AppException e) {
                 log.warn(e.getInfo());
@@ -71,7 +72,5 @@ public class RaffleOrderTest {
         new CountDownLatch(1).await();
     }
 
-
-
-
 }
+

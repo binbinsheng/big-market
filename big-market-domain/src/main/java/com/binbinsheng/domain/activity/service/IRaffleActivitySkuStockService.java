@@ -2,7 +2,7 @@ package com.binbinsheng.domain.activity.service;
 
 import com.binbinsheng.domain.activity.valobj.ActivitySkuStockKeyVO;
 
-public interface ISkuStock {
+public interface IRaffleActivitySkuStockService {
 
     /**
      * 获取活动sku库存消耗队列，从队列中拿出具体的sku订单
