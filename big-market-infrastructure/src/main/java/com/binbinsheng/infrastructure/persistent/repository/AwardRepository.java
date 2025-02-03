@@ -10,8 +10,10 @@ import com.binbinsheng.domain.award.repository.IAwardRepository;
 import com.binbinsheng.infrastructure.event.EventPublisher;
 import com.binbinsheng.infrastructure.persistent.dao.ITaskDao;
 import com.binbinsheng.infrastructure.persistent.dao.IUserAwardRecordDao;
+import com.binbinsheng.infrastructure.persistent.dao.IUserRaffleOrderDao;
 import com.binbinsheng.infrastructure.persistent.po.Task;
 import com.binbinsheng.infrastructure.persistent.po.UserAwardRecord;
+import com.binbinsheng.infrastructure.persistent.po.UserRaffleOrder;
 import com.binbinsheng.types.enums.ResponseCode;
 import com.binbinsheng.types.exception.AppException;
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -40,6 +42,8 @@ public class AwardRepository implements IAwardRepository {
     IDBRouterStrategy dbRouter;
     @Resource
     TransactionTemplate transactionTemplate;
+    @Resource
+    IUserRaffleOrderDao userRaffleOrderDao;
 
     @Override
     public void saveUserAwardRecord(UserAwardRecordAggregate userAwardRecordAggregate) {
@@ -68,6 +72,11 @@ public class AwardRepository implements IAwardRepository {
         task.setMessage(JSON.toJSONString(taskEntity.getMessage()));
         task.setState(taskEntity.getState().getCode());
 
+        UserRaffleOrder userRaffleOrderReq = new UserRaffleOrder();
+        userRaffleOrderReq.setUserId(userId);
+        userRaffleOrderReq.setOrderId(userAwardRecordEntity.getOrderId());
+
+
         //路由写入数据库
         try{
             dbRouter.doRouter(userId);
@@ -77,6 +86,16 @@ public class AwardRepository implements IAwardRepository {
                     userAwardRecordDao.insert(userAwardRecord);
                     //写入任务
                     taskDao.insert(task);
+                    //更新抽奖单
+                    int count = userRaffleOrderDao.updateUserRaffleOrderStateUsed(userRaffleOrderReq);
+                    if (count != 1){
+                        status.setRollbackOnly();
+                        log.error("写入中奖记录，用户抽奖单已使用过，不可重复抽奖 userId: {} activityId: {} awardId: {}"
+                                , userId, activityId, awardId);
+                        throw new AppException(ResponseCode.ACTIVITY_ORDER_ERROR.getCode(),
+                                ResponseCode.ACTIVITY_ORDER_ERROR.getInfo());
+                    }
+
                     return 1;
                 } catch (DuplicateKeyException e) {
                     status.setRollbackOnly();

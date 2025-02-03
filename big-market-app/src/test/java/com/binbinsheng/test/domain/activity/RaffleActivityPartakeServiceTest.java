@@ -3,7 +3,7 @@ package com.binbinsheng.test.domain.activity;
 import com.alibaba.fastjson.JSON;
 import com.binbinsheng.domain.activity.model.entity.PartakeRaffleActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.UserRaffleOrderEntity;
-import com.binbinsheng.domain.activity.service.quota.IRaffleActivityPartakeService;
+import com.binbinsheng.domain.activity.service.IRaffleActivityPartakeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

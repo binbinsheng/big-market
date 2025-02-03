@@ -103,4 +103,5 @@ public class RaffleActivityPartakeService extends AbstractRaffleActivityPartake{
         return userRaffleOrder;
 
     }
+
 }

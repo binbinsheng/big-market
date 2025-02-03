@@ -55,4 +55,8 @@ public interface IStrategyRepository {
      * @return
      */
     StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Integer awardId);
+
+    Long queryStrategyIdByActivityId(Long activityId);
+
+    Integer queryTodayUserRaffleCount(String userId, Long strategyId);
 }

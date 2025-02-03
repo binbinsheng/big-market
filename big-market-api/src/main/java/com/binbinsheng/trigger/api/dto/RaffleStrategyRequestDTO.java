@@ -6,18 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 抽奖应答结果
+ * 抽奖请求对象
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RaffleResponseDTO {
+public class RaffleStrategyRequestDTO {
 
-    //奖品ID
-    private Integer awardId;
-
-    //排序编号【策略奖品配置的奖品顺序编号】
-    private Integer awardIndex;
+    //抽奖策略ID
+    private Long strategyId;
 
 }
+

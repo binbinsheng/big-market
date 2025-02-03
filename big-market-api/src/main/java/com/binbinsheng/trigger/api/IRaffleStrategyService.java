@@ -2,8 +2,8 @@ package com.binbinsheng.trigger.api;
 
 import com.binbinsheng.trigger.api.dto.RaffleAwardListRequestDTO;
 import com.binbinsheng.trigger.api.dto.RaffleAwardListResponseDTO;
-import com.binbinsheng.trigger.api.dto.RaffleRequestDTO;
-import com.binbinsheng.trigger.api.dto.RaffleResponseDTO;
+import com.binbinsheng.trigger.api.dto.RaffleStrategyRequestDTO;
+import com.binbinsheng.trigger.api.dto.RaffleStrategyResponseDTO;
 import com.binbinsheng.types.model.Response;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 
-public interface IRaffleService {
+public interface IRaffleStrategyService {
 
     /**
      * 策略装配接口
@@ -35,5 +35,5 @@ public interface IRaffleService {
      * @param requestDTO
      * @return
      */
-    Response<RaffleResponseDTO> randomRaffle(RaffleRequestDTO requestDTO);
+    Response<RaffleStrategyResponseDTO> randomRaffle(RaffleStrategyRequestDTO requestDTO);
 }

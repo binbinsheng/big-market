@@ -1,4 +1,4 @@
-package com.binbinsheng.domain.activity.service.quota;
+package com.binbinsheng.domain.activity.service;
 
 import com.binbinsheng.domain.activity.model.entity.PartakeRaffleActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.UserRaffleOrderEntity;
@@ -11,4 +11,6 @@ public interface IRaffleActivityPartakeService {
      * @return 用户抽奖订单实体对象
      */
     UserRaffleOrderEntity createOrder(PartakeRaffleActivityEntity partakeRaffleActivityEntity);
+
+    UserRaffleOrderEntity createOrder(String userId, Long activityId);
 }

@@ -1,6 +1,9 @@
 package com.binbinsheng.domain.activity.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Fuzhengwei bugstack.cn @小傅哥
@@ -8,6 +11,9 @@ import lombok.Data;
  * @create 2024-04-04 20:02
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PartakeRaffleActivityEntity {
 
     /**

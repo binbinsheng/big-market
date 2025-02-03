@@ -6,14 +6,12 @@ import com.binbinsheng.domain.activity.model.entity.ActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.PartakeRaffleActivityEntity;
 import com.binbinsheng.domain.activity.model.entity.UserRaffleOrderEntity;
 import com.binbinsheng.domain.activity.respository.IActivityRepository;
-import com.binbinsheng.domain.activity.service.quota.IRaffleActivityPartakeService;
+import com.binbinsheng.domain.activity.service.IRaffleActivityPartakeService;
 import com.binbinsheng.domain.activity.valobj.ActivityStateVO;
 import com.binbinsheng.types.enums.ResponseCode;
 import com.binbinsheng.types.exception.AppException;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.CORBA.portable.ApplicationException;
 
-import javax.annotation.Resource;
 import java.util.Date;
 
 @Slf4j
@@ -61,6 +59,15 @@ public abstract class AbstractRaffleActivityPartake implements IRaffleActivityPa
         repository.saveCreatePartakeOrderAggregate(createPartakeOrderAggregate);
 
         return userRaffleOrder;
+    }
+
+    @Override
+    public UserRaffleOrderEntity createOrder(String userId, Long activityId) {
+        PartakeRaffleActivityEntity partakeRaffleActivityEntity = PartakeRaffleActivityEntity.builder()
+                .userId(userId)
+                .activityId(activityId)
+                .build();
+        return createOrder(partakeRaffleActivityEntity);
     }
 
     protected abstract UserRaffleOrderEntity buildUserRaffleOrder(String userId, Long activityId, Date currentDate);
