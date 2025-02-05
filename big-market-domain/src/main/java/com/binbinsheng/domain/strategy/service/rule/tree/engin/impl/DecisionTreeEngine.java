@@ -8,6 +8,7 @@ import com.google.common.eventbus.DeadEvent;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
     }
 
     @Override
-    public DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId) {
+    public DefaultTreeFactory.StrategyAwardVO process(String userId, Long strategyId, Integer awardId, Date endDate) {
 
         DefaultTreeFactory.StrategyAwardVO strategyAwardData = null;
 
@@ -65,7 +66,7 @@ public class DecisionTreeEngine implements IDecisionTreeEngine {
                             .ruleLogicCheckTypeVO(RuleLogicCheckTypeVO.ALLOW)
                           .build();
              **/
-            DefaultTreeFactory.TreeActionEntity logicEntity = LogicTreeNode.logic(userId, strategyId, awardId, ruleValue);
+            DefaultTreeFactory.TreeActionEntity logicEntity = LogicTreeNode.logic(userId, strategyId, awardId, ruleValue, endDate);
             RuleLogicCheckTypeVO ruleLogicCheckTypeVO = logicEntity.getRuleLogicCheckTypeVO();
             strategyAwardData = logicEntity.getStrategyAwardVO();
             log.info("决策树引擎【{}】 treeId:{} node:{} code:{}",ruleTreeVO.getTreeName(),

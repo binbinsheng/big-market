@@ -7,5 +7,11 @@ import lombok.Data;
  */
 @Data
 public class RaffleAwardListRequestDTO {
+    @Deprecated
+    //策略Id
     private Long strategyId;
+    //活动ID
+    private Long activityId;
+    //用户Id
+    private String userId;
 }

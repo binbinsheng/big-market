@@ -1,8 +1,6 @@
 package com.binbinsheng.trigger.http;
 
-import com.binbinsheng.domain.activity.model.entity.ActivitySkuEntity;
 import com.binbinsheng.domain.activity.model.entity.UserRaffleOrderEntity;
-import com.binbinsheng.domain.activity.respository.IActivityRepository;
 import com.binbinsheng.domain.activity.service.IRaffleActivityPartakeService;
 import com.binbinsheng.domain.activity.service.armory.IActivityArmory;
 import com.binbinsheng.domain.award.model.entity.UserAwardRecordEntity;
@@ -121,6 +119,7 @@ public class RaffleActivityController implements IRaffleActivityService {
             RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(RaffleFactorEntity.builder()
                     .userId(userRaffleOrderEntity.getUserId())
                     .strategyId(userRaffleOrderEntity.getStrategyId())
+                    .endDateTime(userRaffleOrderEntity.getEndDateTime())
                     .build());
 
             // 4. 存放结果 - 写入中奖记录

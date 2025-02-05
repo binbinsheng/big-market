@@ -4,10 +4,12 @@ import com.binbinsheng.domain.strategy.model.valobj.RuleLogicCheckTypeVO;
 import com.binbinsheng.domain.strategy.repository.IStrategyRepository;
 import com.binbinsheng.domain.strategy.service.rule.tree.ILogicTreeNode;
 import com.binbinsheng.domain.strategy.service.rule.tree.factory.DefaultTreeFactory;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * 次数锁结点
@@ -21,7 +23,7 @@ public class RuleLockLogicTreeNode implements ILogicTreeNode {
     private IStrategyRepository repository;
 
     @Override
-    public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId, String ruleValue) {
+    public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Integer awardId, String ruleValue, Date endDate) {
 
         log.info("规则过滤-次数锁 userId:{} strategyId:{} awardId:{}", userId, strategyId, awardId);
 

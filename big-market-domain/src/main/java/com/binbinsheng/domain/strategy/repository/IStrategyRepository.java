@@ -11,6 +11,7 @@ import com.binbinsheng.domain.strategy.model.valobj.RuleTreeVO;
 import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardRuleModelVO;
 import com.binbinsheng.domain.strategy.model.valobj.StrategyAwardStockKeyVO;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +43,8 @@ public interface IStrategyRepository {
 
     Boolean subtractAwardStock(String cacheKey);
 
+    Boolean subtractAwardStock(String cacheKey, Date endDate);
+
     void awardStockConsumeSendQueue(StrategyAwardStockKeyVO strategyAwardStockKeyVO);
 
     StrategyAwardStockKeyVO takeQueueValue();
@@ -59,4 +62,6 @@ public interface IStrategyRepository {
     Long queryStrategyIdByActivityId(Long activityId);
 
     Integer queryTodayUserRaffleCount(String userId, Long strategyId);
+
+    Map<String, Integer> queryAwardRuleLockCount(String[] treeIds);
 }
