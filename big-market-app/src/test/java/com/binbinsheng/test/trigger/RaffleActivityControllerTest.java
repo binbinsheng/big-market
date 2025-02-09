@@ -1,11 +1,13 @@
 package com.binbinsheng.test.trigger;
 
 import com.alibaba.fastjson.JSON;
+import com.binbinsheng.domain.activity.service.armory.IActivityArmory;
 import com.binbinsheng.trigger.api.IRaffleActivityService;
 import com.binbinsheng.trigger.api.dto.ActivityDrawRequestDTO;
 import com.binbinsheng.trigger.api.dto.ActivityDrawResponseDTO;
 import com.binbinsheng.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,14 @@ public class RaffleActivityControllerTest {
 
     @Resource
     private IRaffleActivityService raffleActivityService;
+    @Resource
+    private IActivityArmory activityArmory;
+
+
+    @Before
+    public void setUp() {
+        log.info("装配活动：{}", activityArmory.assembleActivitySku(9011L));
+    }
 
     @Test
     public void test_armory() {
@@ -42,6 +52,13 @@ public class RaffleActivityControllerTest {
         log.info("请求参数：{}", JSON.toJSONString(request));
         log.info("测试结果：{}", JSON.toJSONString(response));
     }
+
+    @Test
+    public void test_calendarSignRebate(){
+        Response<Boolean> response = raffleActivityService.calendarSignRebate("xiaofuge");
+        log.info("测试结果：{}", JSON.toJSONString(response));
+    }
+
 
 }
 

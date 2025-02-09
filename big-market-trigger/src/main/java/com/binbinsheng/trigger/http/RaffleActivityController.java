@@ -1,11 +1,17 @@
 package com.binbinsheng.trigger.http;
 
+import com.alibaba.fastjson.JSON;
 import com.binbinsheng.domain.activity.model.entity.UserRaffleOrderEntity;
 import com.binbinsheng.domain.activity.service.IRaffleActivityPartakeService;
 import com.binbinsheng.domain.activity.service.armory.IActivityArmory;
 import com.binbinsheng.domain.award.model.entity.UserAwardRecordEntity;
 import com.binbinsheng.domain.award.model.valobj.AwardStateVO;
 import com.binbinsheng.domain.award.service.IAwardService;
+import com.binbinsheng.domain.rebate.model.entity.BehaviorEntity;
+import com.binbinsheng.domain.rebate.model.valobj.BehaviorTypeVO;
+import com.binbinsheng.domain.rebate.repository.IBehaviorRebateRepository;
+import com.binbinsheng.domain.rebate.service.BehaviorRebateService;
+import com.binbinsheng.domain.rebate.service.IBehaviorRebateService;
 import com.binbinsheng.domain.strategy.model.entity.RaffleAwardEntity;
 import com.binbinsheng.domain.strategy.model.entity.RaffleFactorEntity;
 import com.binbinsheng.domain.strategy.service.IRaffleStrategy;
@@ -16,12 +22,15 @@ import com.binbinsheng.trigger.api.dto.ActivityDrawResponseDTO;
 import com.binbinsheng.types.enums.ResponseCode;
 import com.binbinsheng.types.exception.AppException;
 import com.binbinsheng.types.model.Response;
+import jdk.nashorn.internal.ir.CallNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -33,6 +42,8 @@ import java.util.Date;
 @RequestMapping("/api/${app.config.api-version}/raffle/activity")
 public class RaffleActivityController implements IRaffleActivityService {
 
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+
     @Resource
     IActivityArmory activityArmory;
     @Resource
@@ -43,6 +54,8 @@ public class RaffleActivityController implements IRaffleActivityService {
     IRaffleStrategy raffleStrategy;
     @Resource
     IAwardService awardService;
+    @Resource
+    IBehaviorRebateService behaviorRebateService;
 
     /**
      * 活动装配 - 数据预热 | 把活动配置的对应的 sku 一起装配
@@ -159,5 +172,49 @@ public class RaffleActivityController implements IRaffleActivityService {
                     .build();
         }
 
+    }
+
+
+    /**
+     * 日历签到返利接口
+     *
+     * @param userId 用户ID
+     * @return 签到返利结果
+     * <p>
+     * 接口：<a href="http://localhost:8091/api/v1/raffle/activity/calendar_sign_rebate">/api/v1/raffle/activity/calendar_sign_rebate</a>
+     * 入参：xiaofuge
+     * <p>
+     * curl -X POST http://localhost:8091/api/v1/raffle/activity/calendar_sign_rebate -d "userId=xiaofuge" -H "Content-Type: application/x-www-form-urlencoded"
+     */
+    @Override
+    @RequestMapping(value = "calendar_sign_rebate", method = RequestMethod.POST)
+    public Response<Boolean> calendarSignRebate(String userId) {
+        try {
+            log.info("日历签到返利开始 userId:{}", userId);
+            BehaviorEntity behaviorEntity = new BehaviorEntity();
+            behaviorEntity.setUserId(userId);
+            behaviorEntity.setBehaviorType(BehaviorTypeVO.SIGN);
+            behaviorEntity.setOutBusinessNo(dateFormat.format(new Date()));
+            //虽然返回多个OrderId, 如由签到引起的返利：加次数(sku)，加积分(Integral)但是目前只有加次数生效
+            List<String> orderIds = behaviorRebateService.createOrder(behaviorEntity);
+            log.info("日历签到返利完成 userId:{} orderIds:{}", userId, JSON.toJSONString(orderIds));
+            return Response.<Boolean>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(true)
+                    .build();
+        }catch (AppException e) {
+            log.error("日历签到返利异常 userId:{}", userId);
+            return Response.<Boolean>builder()
+                    .code(e.getCode())
+                    .info(e.getInfo())
+                    .build();
+        }catch (Exception e) {
+            log.error("日历签到返利失败 userId:{}", userId);
+            return Response.<Boolean>builder()
+                    .code(ResponseCode.UN_ERROR.getCode())
+                    .info(ResponseCode.UN_ERROR.getInfo())
+                    .build();
+        }
     }
 }
