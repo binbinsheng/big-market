@@ -5,6 +5,8 @@ import com.binbinsheng.domain.activity.service.armory.IActivityArmory;
 import com.binbinsheng.trigger.api.IRaffleActivityService;
 import com.binbinsheng.trigger.api.dto.ActivityDrawRequestDTO;
 import com.binbinsheng.trigger.api.dto.ActivityDrawResponseDTO;
+import com.binbinsheng.trigger.api.dto.UserActivityAccountRequestDTO;
+import com.binbinsheng.trigger.api.dto.UserActivityAccountResponseDTO;
 import com.binbinsheng.types.model.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -58,6 +60,26 @@ public class RaffleActivityControllerTest {
         Response<Boolean> response = raffleActivityService.calendarSignRebate("xiaofuge");
         log.info("测试结果：{}", JSON.toJSONString(response));
     }
+
+    @Test
+    public void test_isCalendarSignRebate() {
+        Response<Boolean> response = raffleActivityService.isCalenderSignRebate("xiaofuge");
+        log.info("测试结果：{}", JSON.toJSONString(response));
+    }
+
+    @Test
+    public void test_queryUserActivityAccount() {
+        UserActivityAccountRequestDTO request = new UserActivityAccountRequestDTO();
+        request.setActivityId(100301L);
+        request.setUserId("xiaofuge123");
+
+        // 查询数据
+        Response<UserActivityAccountResponseDTO> response = raffleActivityService.queryUserActivityAccount(request);
+
+        log.info("请求参数：{}", JSON.toJSONString(request));
+        log.info("测试结果：{}", JSON.toJSONString(response));
+    }
+
 
 
 }

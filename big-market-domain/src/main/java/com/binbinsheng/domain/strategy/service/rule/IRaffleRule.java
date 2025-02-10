@@ -1,5 +1,8 @@
 package com.binbinsheng.domain.strategy.service.rule;
 
+import com.binbinsheng.domain.strategy.model.valobj.RuleWeightVO;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,5 +12,9 @@ import java.util.Map;
 public interface IRaffleRule {
 
     Map<String, Integer> queryAwardRuleLockCount(String[] treeIds);
+
+    List<RuleWeightVO> queryAwardRuleWeight(Long strategyId);
+
+    List<RuleWeightVO> queryAwardRuleWeightByActivityId(Long activityId);
 
 }

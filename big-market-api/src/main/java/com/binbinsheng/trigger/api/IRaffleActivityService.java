@@ -2,6 +2,8 @@ package com.binbinsheng.trigger.api;
 
 import com.binbinsheng.trigger.api.dto.ActivityDrawRequestDTO;
 import com.binbinsheng.trigger.api.dto.ActivityDrawResponseDTO;
+import com.binbinsheng.trigger.api.dto.UserActivityAccountRequestDTO;
+import com.binbinsheng.trigger.api.dto.UserActivityAccountResponseDTO;
 import com.binbinsheng.types.model.Response;
 
 /**
@@ -33,4 +35,17 @@ public interface IRaffleActivityService {
      * @return
      */
     Response<Boolean> calendarSignRebate(String userId);
+
+    /**
+     * 查询日历签到是否已经返利的接口
+     * @param userId
+     * @return
+     */
+    Response<Boolean> isCalenderSignRebate(String userId);
+
+    /**
+     * 查询用户在某个活动上的抽奖剩余的次数
+     * @return
+     */
+    Response<UserActivityAccountResponseDTO> queryUserActivityAccount(UserActivityAccountRequestDTO requestDTO);
 }

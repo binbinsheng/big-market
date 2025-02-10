@@ -1,5 +1,6 @@
 package com.binbinsheng.domain.activity.service;
 
+import com.binbinsheng.domain.activity.model.entity.ActivityAccountEntity;
 import com.binbinsheng.domain.activity.model.entity.SkuRechargeEntity;
 
 public interface IRaffleActivityAccountQuotaService {
@@ -17,4 +18,8 @@ public interface IRaffleActivityAccountQuotaService {
 
 
     Integer queryRaffleActivityAccountDayPartakeCount(Long activityId, String userId);
+
+    ActivityAccountEntity queryActivityAccountEntity(Long activityId, String userId);
+
+    Integer queryRaffleActivityAccountPartakeCount(Long activityId, String userId);
 }

@@ -25,8 +25,6 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
     @Resource
     IStrategyDispatch strategyDispatch;
 
-    //用户积分，先写死
-    Long userScore = 0L;
 
 
     @Override
@@ -53,6 +51,8 @@ public class RuleWeightLogicChain extends AbstractLogicChain {
         List<Long> analyticalSortedKeys = new ArrayList<>(analyticalValueGroup.keySet());
         Collections.sort(analyticalSortedKeys);
 
+
+        Integer userScore = repository.queryActivityAccountTotalUseCount(userId, strategyId);
         //3.如4500积分找到4000的key， 5500找到5000的key
         Long nextValue = analyticalSortedKeys.stream().filter(key ->
                         userScore >= key)

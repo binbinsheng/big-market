@@ -1,9 +1,6 @@
 package com.binbinsheng.trigger.api;
 
-import com.binbinsheng.trigger.api.dto.RaffleAwardListRequestDTO;
-import com.binbinsheng.trigger.api.dto.RaffleAwardListResponseDTO;
-import com.binbinsheng.trigger.api.dto.RaffleStrategyRequestDTO;
-import com.binbinsheng.trigger.api.dto.RaffleStrategyResponseDTO;
+import com.binbinsheng.trigger.api.dto.*;
 import com.binbinsheng.types.model.Response;
 
 import java.util.List;
@@ -22,6 +19,14 @@ public interface IRaffleStrategyService {
      */
     Response<Boolean> strategyArmory(Long strategyId);
 
+
+    /**
+     * 查询抽奖策略规则
+     * （抽多少次必得某个奖品->都是数据库配置的）
+     * @param requestDTO
+     * @return
+     */
+    Response<List<RaffleStrategyRuleWeightResponseDTO>> queryRaffleStrategyRuleWeight(RaffleStrategyRuleWeightRequestDTO requestDTO);
 
     /**
      * 查询抽奖奖品列表配置
