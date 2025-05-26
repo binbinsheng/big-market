@@ -43,6 +43,7 @@ public class BackListLogicChain extends AbstractLogicChain {
                 return DefaultChainFactory.StrategyAwardVO.builder()
                         .awardId(awardId)
                         .logicModel(ruleModel())
+                        .awardRuleValue("0,0.1")
                         .build();
             }
         }

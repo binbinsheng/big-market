@@ -152,6 +152,7 @@ public class RaffleActivityController implements IRaffleActivityService {
                     .awardTitle(raffleAwardEntity.getAwardTitle())
                     .awardTime(new Date())
                     .awardState(AwardStateVO.create)
+                    .awardConfig(raffleAwardEntity.getAwardConfig())
                     .build();
             awardService.saveUserAwardRecord(userAwardRecord);
 
@@ -250,7 +251,7 @@ public class RaffleActivityController implements IRaffleActivityService {
 
     @Override
     @RequestMapping(value = "query_user_activity_account")
-    public Response<UserActivityAccountResponseDTO> queryUserActivityAccount(UserActivityAccountRequestDTO requestDTO) {
+    public Response<UserActivityAccountResponseDTO> queryUserActivityAccount(@RequestBody UserActivityAccountRequestDTO requestDTO) {
         try{
             log.info("查询用户活动账户抽奖剩余次数-开始 userId:{} activityId:{}", requestDTO.getUserId(), requestDTO.getActivityId());
             // 1. 参数校验

@@ -1,5 +1,6 @@
 package com.binbinsheng.domain.award.repository;
 
+import com.binbinsheng.domain.award.model.aggregate.GiveOutPrizesAggregate;
 import com.binbinsheng.domain.award.model.aggregate.UserAwardRecordAggregate;
 
 /**
@@ -9,5 +10,11 @@ import com.binbinsheng.domain.award.model.aggregate.UserAwardRecordAggregate;
 public interface IAwardRepository {
 
     void saveUserAwardRecord(UserAwardRecordAggregate userAwardRecordAggregate);
+
+    String queryAwardConfigByAwardId(Integer awardId);
+
+    String queryAwardKeyByAwardId(Integer awardId);
+
+    void saveGiveOutPrizesAggregate(GiveOutPrizesAggregate giveOutPrizesAggregate);
 
 }

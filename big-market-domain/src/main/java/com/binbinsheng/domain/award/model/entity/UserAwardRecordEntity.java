@@ -36,5 +36,7 @@ public class UserAwardRecordEntity {
     private AwardStateVO awardState;
     /** 活动结束时间 */
     private Date endDateTime;
+    /** 奖品的配置 */
+    private String awardConfig;
 
 }

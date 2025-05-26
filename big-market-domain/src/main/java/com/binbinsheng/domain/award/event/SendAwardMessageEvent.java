@@ -51,5 +51,9 @@ public class SendAwardMessageEvent extends BaseEvent<SendAwardMessageEvent.SendA
 
         //奖品标题
         private String awardTitle;
+
+        private String orderId;
+
+        private String awardConfig;
     }
 }
